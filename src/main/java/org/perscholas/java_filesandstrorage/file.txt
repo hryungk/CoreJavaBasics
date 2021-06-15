@@ -1,0 +1,12 @@
+apple
+banana
+cherry
+date
+fruit
+grape
+jack fruit
+lemon
+mango
+orange
+pear
+raspberry
