@@ -1,6 +1,8 @@
 package org.perscholas.java_collections.keychains;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -12,8 +14,8 @@ import java.util.TreeSet;
  */
 public class KeyChain {
 
-	private Set<Key> keys = new TreeSet<>(); // Using a Set to hold keys enforces uniqueness 
-//	private HashMap<KeyShape, ArrayList<Key>> keys = new HashMap<>();
+//	private Set<Key> keys = new TreeSet<>(); // Using a Set to hold keys enforces uniqueness 
+	private HashMap<KeyShape, ArrayList<Key>> keys = new HashMap<>();
 	
 	/**
 	 * Default constructor
@@ -27,7 +29,8 @@ public class KeyChain {
 	 * @param keys A Collection of Key objects to add to this KeyChain
 	 */
 	public KeyChain(Collection<Key> keys) {
-		this.keys.addAll(keys);
+//		this.keys.addAll(keys);
+		
 	}
 	
 	/**
@@ -35,7 +38,12 @@ public class KeyChain {
 	 * @return The number of Key objects on this KeyChain
 	 */
 	public int size() {
-		return keys.size();
+//		return keys.size();
+		int count = 0;
+		for (KeyShape ks : keys.keySet()) {
+			count += keys.get(ks).size();
+		}
+		return count;
 	}
 	
 	/**
@@ -44,7 +52,10 @@ public class KeyChain {
 	 * @return true if the addition was successful
 	 */
 	public boolean add(Key key) {
-		return keys.add(key);
+//		return keys.add(key);		
+		keys.putIfAbsent(key.shape(), new ArrayList<Key>());
+		keys.get(key.shape()).add(key);		
+		return true;
 	}
 	
 	/**
@@ -53,7 +64,11 @@ public class KeyChain {
 	 * @return true if the removal was successful
 	 */
 	public boolean remove(Key key) {
-		return keys.remove(key);
+//		return keys.remove(key);
+		if (keys.containsKey(key.shape())) {
+			return keys.get(key.shape()).remove(key);
+		}
+		return false;
 	}
 	
 	/**
@@ -68,10 +83,11 @@ public class KeyChain {
 			return true;
 		
 		// If the door is not locked, then find a key to lock it.				
-		Iterator<Key> it = keys.iterator();
-		while (!isLocked && it.hasNext()) {
-			isLocked = door.lock(it.next());
-		}
+//		Iterator<Key> it = keys.iterator();
+//		while (!isLocked && it.hasNext()) {
+//			isLocked = door.lock(it.next());
+//		}
+		
 		
 		return isLocked;
 	}
@@ -88,10 +104,10 @@ public class KeyChain {
 			return true;
 		
 		// If the door is locked, then find a key to unlock it.		
-		Iterator<Key> it = keys.iterator();
-		while (!isUnlocked && it.hasNext()) {
-			isUnlocked = door.unlock(it.next());
-		}
+//		Iterator<Key> it = keys.iterator();
+//		while (!isUnlocked && it.hasNext()) {
+//			isUnlocked = door.unlock(it.next());
+//		}
 		
 		return isUnlocked;
 	}
