@@ -31,6 +31,6 @@ public class FileReadDemo {
 			e.printStackTrace();
 		}
 		
+		System.out.println();
 	}
-
 }
